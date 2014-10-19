@@ -1,0 +1,4 @@
+redstar_skeleton_app:
+    resource: "@RedstarSkeletonAppBundle/Resources/config/routing.yml"
+    prefix:   /
+
