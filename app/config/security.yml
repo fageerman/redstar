@@ -1,12 +1,59 @@
 security:
+    encoders:
+        Redstar\UserBundle\Entity\User:
+            algorithm: bcrypt
+#            encode_as_base64: false
+#            iterations: 1
+#    encoders:
+#        Symfony\Component\Security\Core\User\User:
+#             algorithm: bcrypt
+             
+        
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
+
     providers:
-        in_memory:
-            memory: ~
-
+#         in_memory:
+#            memory:
+#                users:
+#                    ryan:
+#                        password: $2a$12$7LLbsWG.WKPUuMeEcM2DHORchk8naA1lE2rdHmNFpIXBhOHrcntlO
+#                        roles: 'ROLE_USER'
+#                    admin:
+#                        password: kitten
+#                        roles: 'ROLE_ADMIN'
+            administrators:
+                entity:
+                    class: RedstarUserBundle:User
+                    property: username 
+                        
     firewalls:
+                           
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # the login page has to be accessible for everybody
+        login:
+            pattern:  ^/login$
+            security: false
+            #anonymous: ~
 
-        default:
-            anonymous: ~
+        # secures part of the application
+        secured_area:
+            pattern:    ^/
+            
+            form_login:
+                check_path: redstar_security_login_check
+                login_path: redstar_security_login
+            logout:
+                path:   redstar_security_logout
+                target: redstar_security_login
+            
+    access_control:
+        - { path: ^/, roles: ROLE_ADMIN }
+        
+        
+        
+        
+        

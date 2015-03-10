@@ -1,3 +1,11 @@
+redstar_user:
+    resource: "@RedstarUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+redstar_security:
+    resource: "@RedstarSecurityBundle/Resources/config/routing.yml"
+    prefix:   /
+
 redstar_skeleton_app:
     resource: "@RedstarSkeletonAppBundle/Resources/config/routing.yml"
     prefix:   /
