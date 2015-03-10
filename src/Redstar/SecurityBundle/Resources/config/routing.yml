@@ -1,0 +1,9 @@
+redstar_security_login:
+    path:     /login
+    defaults: { _controller: RedstarSecurityBundle:Default:login }
+
+redstar_security_login_check:
+    path:     /login_check
+    
+redstar_security_logout:
+    path:     /logout

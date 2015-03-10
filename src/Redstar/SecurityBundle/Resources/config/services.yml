@@ -1,0 +1,4 @@
+services:
+#    redstar_security.example:
+#        class: Redstar\SecurityBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]
