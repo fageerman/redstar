@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+ <div id="nav">
+     Welcome, {{ app.user.username }}! <a href="{{ path('redstar_security_logout')}}"> Logout </a>
+    {% block nav %}{{ knp_menu_render('main') }}{% endblock %}
+</div>
+<div id="content">
+    {% block content %}{% endblock %}
+</div>
+<div id="footer">
+    {% block footer %}footer{% endblock %}
+</div>
+{% endblock %}
