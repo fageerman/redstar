@@ -1,1 +1,6 @@
-Hello {{ name }}!
+{% extends "layout.html.twig" %}
+
+{% block title %}Hello {{ name }}!{% endblock %}
+{% block content %}
+    Hello {{ name }}!!!
+{% endblock %}

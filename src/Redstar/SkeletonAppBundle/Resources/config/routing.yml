@@ -1,3 +1,11 @@
 redstar_skeleton_app_homepage:
+    path:     /
+    defaults: { _controller: RedstarSkeletonAppBundle:Default:home }
+    
+redstar_skeleton_app_hellopage:
     path:     /hello/{name}
     defaults: { _controller: RedstarSkeletonAppBundle:Default:index }
+
+redstar_skeleton_app_editpage:
+    path:     /admin/edit
+    defaults: { _controller: RedstarSkeletonAppBundle:Default:edit }
