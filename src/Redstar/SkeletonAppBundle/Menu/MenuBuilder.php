@@ -17,7 +17,7 @@ class MenuBuilder extends ContainerAware
         $menu = $this->factory->createItem('root');
 
         $menu->addChild('Dashboard', array('route' => 'redstar_skeleton_app_homepage'));
-        $menu->addChild('Usermanagement', array('route' => 'redstar_user_homepage'));
+        $menu->addChild('Usermanagement', array('route' => 'user'));
 
 
 //        // access services from the container!
