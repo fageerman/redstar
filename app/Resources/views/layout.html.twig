@@ -1,14 +1,49 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
- <div id="nav">
-     Welcome, {{ app.user.username }}! <a href="{{ path('redstar_security_logout')}}"> Logout </a>
-    {% block nav %}{{ knp_menu_render('main') }}{% endblock %}
-</div>
-<div id="content">
-    {% block content %}{% endblock %}
-</div>
-<div id="footer">
-    {% block footer %}footer{% endblock %}
-</div>
+
+    {% block nav %}
+        <!-- Fixed navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Redstar</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          {{ knp_menu_render('main') }}
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    {% endblock %}
+     
+    <div class="clearfix"></div>
+    
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>Navbar example</h1>
+        <p>This example is a quick exercise to illustrate how the default, static and fixed to top navbar work. It includes the responsive CSS and HTML, so it also adapts to your viewport and device.</p>
+        <p>To see the difference between static and fixed top navbars, just scroll.</p>
+        <p>
+          <a class="btn btn-lg btn-primary" href="../../components/#navbar" role="button">View navbar docs &raquo;</a>
+        </p>
+      </div>
+
+    </div>
+    
+<footer class="footer">
+      <div class="container">
+        {% block footer %}
+            <span class="right">Logged in as: {{ app.user.username}} <a href="{{path('redstar_security_logout')}}">Logout</a></span>
+        {% endblock %} 
+        
+      </div>
+    </footer>   
 {% endblock %}
