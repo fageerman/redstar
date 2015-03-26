@@ -9,8 +9,8 @@
         <meta name="author" content="">
         <title>{% block title %}Redstar{% endblock %}</title>
         {% block stylesheets %}
-            {% stylesheets 'public/css/*' %}
-              <link rel="stylesheet" type="text/css" charset="UTF-8" media="all" href="{{ asset_url }}"/>
+            {% stylesheets '%kernel.root_dir%/Resources/public/css/*' filter='cssrewrite' output='css/all.css' %}
+                <link rel="stylesheet" type="text/css" charset="UTF-8" media="all" href="{{ asset_url }}"/>
             {% endstylesheets %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -18,8 +18,10 @@
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            {% javascripts 'public/js/*' %}
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            {% javascripts '%kernel.root_dir%/Resources/public/js/*' 
+                           'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'
+                output='js/all.js'
+            %}
                 <script type="text/javascript" src="{{ asset_url }}"></script>
             {% endjavascripts %}
         {% endblock %}
