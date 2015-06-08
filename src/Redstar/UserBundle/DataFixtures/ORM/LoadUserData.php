@@ -7,6 +7,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Redstar\UserBundle\Entity\User;
+use Redstar\UserBundle\Entity\Role;
 
 class LoadUserData implements FixtureInterface, ContainerAwareInterface
 {
@@ -36,8 +37,16 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
       $user->setPassword($encoder->encodePassword('blue', $user->getSalt()));
       $user->setEmail("someuser@mail.ca");
 
-      $manager->persist($user);
-
+      $manager->persist($user); 
+      
+      $role = new Role();
+      $role->setName("admin");
+      $role->setRole("ROLE_ADMIN");
+      $role->setUser($user);
+      
+      $manager->persist($role);
+      
       $manager->flush();
+      
     }
 }
