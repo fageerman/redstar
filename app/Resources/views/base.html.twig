@@ -18,8 +18,7 @@
     <body>
         {% block body %}{% endblock %}
         {% block javascripts %}
-            {% javascripts 'https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js'
-                            '%kernel.root_dir%/Resources/public/js/*' 
+            {% javascripts '%kernel.root_dir%/Resources/public/js/*' 
                            
                 output='js/all.js'
             %}
