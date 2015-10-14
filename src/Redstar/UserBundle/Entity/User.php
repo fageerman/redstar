@@ -4,7 +4,7 @@ namespace Redstar\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Redstar\UserBundle\Entity\User
  *
@@ -26,82 +26,96 @@ class User implements AdvancedUserInterface, \Serializable
     private $username;
 
     /**
+     * Encrypted password. Must be persisted.
+     * 
      * @ORM\Column(type="string", length=64)
      */
     private $password;
-
+    
+    /**
+     * Plain password. Used for model validation. Must not be persisted.
+     *
+     * @var string
+     */
+    private $plainPassword;
+    
+    /**
+     * @ORM\Column(name="last_login", type="datetime", nullable=true)
+     */
+    protected $lastLogin;
+    
     /**
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(name="is_active", type="boolean")
+     * Is registered as an active user. True when creating new users.
+     * 
+     * @ORM\Column(type="boolean")
      */
-    private $isActive;
+    private $enabled;
     
     /**
+     * Check whether a user is (intentionally) locked.
+     * 
+     * @ORM\Column(type="boolean")
+     */
+    private $locked;
+    
+    /**
+     * Random string sent to the user email address in order to verify it
+     *
+     * @ORM\Column(name="confirmation_token", type="string", length=64, nullable=true)
+     */
+    private $confirmationToken; 
+    
+    /**
+     * The salt to use for hashing.
+     * 
      * @ORM\Column(type="string", length=64)
     */
     private $salt;
     
     /**
+     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
+     */
+    protected $passwordRequestedAt;
+    
+    /*
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
      *
      */
+    
+    /**
+     *
+     * @var type 
+     */
     private $roles;
+    
+    
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    protected $expired;
+    
+    /**
+     * @ORM\Column(name="expires_at", type="datetime", nullable=true)
+     */
+    protected $expiresAt;
+    
     
     public function __construct()
     {
-        $this->isActive = true;
-        // may not be needed, see section on salt below
+        $this->enabled = true;
+        $this->locked = false;
+        $this->expired = false;
         $this->salt = md5(uniqid(null, true));
         $this->roles = new ArrayCollection();
     }
-
+    
     /**
-     * @inheritDoc
-     */
-    public function getUsername()
-    {
-        return $this->username;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getSalt()
-    {
-        // you *may* need a real salt depending on your encoder
-        // see section on salt below
-        return $this->salt;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getRoles()
-    {
-        return $this->roles->toArray();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function eraseCredentials()
-    {
-    }
-
-    /**
-     * @see \Serializable::serialize()
+     * Serialize the user.
      */
     public function serialize()
     {
@@ -109,14 +123,17 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            $this->isActive,
-            // see section on salt below
+            $this->email,
+            $this->enabled,
+            $this->locked,
+            $this->expired,
+            $this->expiresAt,
             $this->salt,
         ));
     }
 
     /**
-     * @see \Serializable::unserialize()
+     * Unserialize the user.
      */
     public function unserialize($serialized)
     {
@@ -124,102 +141,85 @@ class User implements AdvancedUserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
-            $this->isActive,
-            // see section on salt below
-            $this->salt
+            $this->email,
+            $this->enabled,
+            $this->locked,
+            $this->expired,
+            $this->expiresAt,
+            $this->salt,
         ) = unserialize($serialized);
     }
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
+    /************************GETTERS*****************************/
+
     public function getId()
     {
         return $this->id;
     }
 
-    /**
-     * Set username
-     *
-     * @param string $username
-     * @return User
-     */
-    public function setUsername($username)
+    public function getUsername()
     {
-        $this->username = $username;
+        return $this->username;
+    }
 
-        return $this;
+
+    public function getSalt()
+    {
+        // you *may* need a real salt depending on your encoder
+        return $this->salt;
     }
     
-    /**
-     * Set password
-     *
-     * @param string $password
-     * @return User
-     */
-    public function setPassword($password)
+    function getPlainPassword() {
+        return $this->plainPassword;
+    }
+    
+    public function getPassword()
     {
-        $this->password = $password;
-
-        return $this;
+        return $this->password;
     }
 
-    /**
-     * Set email
-     *
-     * @param string $email
-     * @return User
-     */
-    public function setEmail($email)
+    public function getRoles()
     {
-        $this->email = $email;
-
-        return $this;
+       // return $this->roles->toArray();
+        return array('ROLE_ADMIN');
     }
-
-    /**
-     * Get email
-     *
-     * @return string 
-     */
+    
+    public function eraseCredentials()
+    {
+        
+    }
+    
     public function getEmail()
     {
         return $this->email;
     }
-
-    /**
-     * Set isActive
-     *
-     * @param boolean $isActive
-     * @return User
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-
-        return $this;
-    }
-
-    /**
-     * Get isActive
-     *
-     * @return boolean 
-     */
-    public function getIsActive()
-    {
-        return $this->isActive;
-    }
     
+    function getLastLogin() {
+        return $this->lastLogin;
+    }
+
+    function getConfirmationToken() {
+        return $this->confirmationToken;
+    }
+
+    function getPasswordRequestedAt() {
+        return $this->passwordRequestedAt;
+    }
+
     public function isAccountNonExpired()
     {
+        if (true === $this->expired) {
+            return false;
+        }
+        if (null !== $this->expiresAt && $this->expiresAt->getTimestamp() < time()) {
+            return false;
+        }
         return true;
     }
 
     public function isAccountNonLocked()
     {
-        return true;
+        return !$this->locked;
     }
 
     public function isCredentialsNonExpired()
@@ -229,6 +229,71 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function isEnabled()
     {
-        return $this->isActive;
+        return $this->enabled;
     }
+
+    
+    /************************SETTERS*****************************/
+    
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+    
+    public function setPassword($password)
+    {
+        $this->password = $password;
+
+        return $this;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+    
+    function setPlainPassword($plainPassword) {
+        $this->plainPassword = $plainPassword;
+    }
+
+    function setLastLogin($lastLogin) {
+        $this->lastLogin = $lastLogin;
+    }
+
+    function setLocked($locked) {
+        $this->locked = $locked;
+    }
+
+    function setConfirmationToken($confirmationToken) {
+        $this->confirmationToken = $confirmationToken;
+    }
+
+    function setSalt($salt) {
+        $this->salt = $salt;
+    }
+
+    function setPasswordRequestedAt($passwordRequestedAt) {
+        $this->passwordRequestedAt = $passwordRequestedAt;
+    }
+
+    function setExpired($expired) {
+        $this->expired = $expired;
+    }
+
+    function setExpiresAt($expiresAt) {
+        $this->expiresAt = $expiresAt;
+    }
+
+
 }

@@ -22,19 +22,19 @@ class SecurityRequestListener
 
     public function onKernelRequest(GetResponseEvent $event)
     {
-        if (!$event->isMasterRequest()) {
-            // don't do anything if it's not the master request
-            return;
-        }
-        $request = $event->getRequest();
-        
-        $token = $this->securityContext->getToken();
-        if($token instanceof AnonymousToken){
-            echo "user not logged in";
-        }elseif($token instanceof UsernamePasswordToken){
-            echo "user: " . $token->getUsername() . "\n\r";
-            echo "role: " . $token->getRoles()[0]->getName();            
-        }
+//        if (!$event->isMasterRequest()) {
+//            // don't do anything if it's not the master request
+//            return;
+//        }
+//        $request = $event->getRequest();
+//        
+//        $token = $this->securityContext->getToken();
+//        if($token instanceof AnonymousToken){
+//            echo "user not logged in";
+//        }elseif($token instanceof UsernamePasswordToken){
+//            echo "user: " . $token->getUsername() . "\n\r";
+//            echo "role: " . $token->getRoles()[0]->getName();            
+//        }
     
         //$this->user = $this->securityContext->getToken()->getUser();
 //        if ($this->securityContext->isGranted('IS_AUTHENTICATED_FULLY')) {

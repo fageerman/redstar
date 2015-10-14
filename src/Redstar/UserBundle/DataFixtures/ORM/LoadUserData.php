@@ -27,25 +27,16 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Load the admin in the database with command: $ php app/console doctrine:fixtures:load
      */
     public function load(ObjectManager $manager)
     {
       $user = new User();
-      $user->setUsername("someuser");
+      $user->setUsername("admin");
       $encoder = $this->container->get('security.encoder_factory')->getEncoder($user);
-      $user->setPassword($encoder->encodePassword('blue', $user->getSalt()));
-      $user->setEmail("someuser@mail.ca");
-
+      $user->setPassword($encoder->encodePassword('Aruba!23', $user->getSalt()));
+      $user->setEmail("f.a.geerman@gmail.com");
       $manager->persist($user); 
-      
-      $role = new Role();
-      $role->setName("admin");
-      $role->setRole("ROLE_ADMIN");
-      $role->setUser($user);
-      
-      $manager->persist($role);
-      
       $manager->flush();
       
     }
