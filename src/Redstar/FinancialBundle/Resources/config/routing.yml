@@ -1,0 +1,3 @@
+redstar_financial_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: RedstarFinancialBundle:Default:index }

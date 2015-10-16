@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Redstar\UserBundle\RedstarUserBundle(),
             new Lexik\Bundle\FormFilterBundle\LexikFormFilterBundle(),
             new JordiLlonch\Bundle\CrudGeneratorBundle\JordiLlonchCrudGeneratorBundle(),
+            new Redstar\FinancialBundle\RedstarFinancialBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

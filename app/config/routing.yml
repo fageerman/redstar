@@ -1,3 +1,7 @@
+redstar_financial:
+    resource: "@RedstarFinancialBundle/Resources/config/routing.yml"
+    prefix:   /
+
 redstar_user:
     resource: "@RedstarUserBundle/Resources/config/routing.yml"
     prefix:   /
