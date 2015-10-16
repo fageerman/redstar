@@ -8,14 +8,30 @@ class DefaultControllerTest extends WebTestCase
 {
     public function testLogin()
     {
-        /*Authenticate */
-        $client = static::createClient(array(), array(
-            'PHP_AUTH_USER' => 'admin',
-            'PHP_AUTH_PW'   => 'Aruba!23',
-        ));
-        /* Then try to request the homepage */
-        $client->request('GET', '/');
-        $this->assertTrue($client->getResponse()->isSuccessful());
+        /*User wants to submit the login form without credentials */
+        $client = static::createClient();
+        $client->followRedirects();
+        $crawler = $client->request('GET', '/login');
+        
+        $form = $crawler->selectButton('Login')->form();
+        $form['_username'] = '';
+        $form['_password'] = '';
+
+        $crawler = $client->submit($form);
+        
+        $response = $crawler->filter('.error')->html();
+        echo "\nUser submits the login form without credentials.\n";
+        $this->assertEquals($response, 'Bad credentials.');
+        
+        $form['_username'] = 'admin';
+        $form['_password'] = 'asdfasdf';
+
+        $crawler = $client->submit($form);
+        
+        $response = $crawler->filter('.error')->html();
+        echo "User submits the login with bad credentials.";
+        $this->assertEquals($response, 'Bad credentials.');
+        
     }
     
 }
