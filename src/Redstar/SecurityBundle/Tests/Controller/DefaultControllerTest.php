@@ -6,12 +6,16 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function testLogin()
     {
-        $client = static::createClient();
-
-        $crawler = $client->request('GET', '/hello/Fabien');
-
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+        /*Authenticate */
+        $client = static::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'Aruba!23',
+        ));
+        /* Then try to request the homepage */
+        $client->request('GET', '/');
+        $this->assertTrue($client->getResponse()->isSuccessful());
     }
+    
 }
