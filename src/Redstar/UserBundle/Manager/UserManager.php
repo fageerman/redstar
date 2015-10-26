@@ -18,7 +18,7 @@ use Redstar\UserBundle\Entity\User;
  */
 class UserManager 
 {
-    const ENTITY_CLASS = "Redstar\UserBundle\Entity\User.php";
+    const ENTITY_CLASS = "Redstar\UserBundle\Entity\User";
     private $em;
     private $repo;
     
@@ -29,7 +29,15 @@ class UserManager
     
     public function getUserByUsername($username)
     {
-        $user = $this->repo->findBy("username",$username);
+        $user = $this->repo->findOneBy(array('username'=>$username));
         return $user;
     }
+    
+    
+    public function getAllUsers()
+    {
+        $allUser = $this->repo->findAll();
+        return $allUser;
+    }
+    
 }

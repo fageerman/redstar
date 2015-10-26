@@ -1,4 +1,4 @@
 services:
-    redstar_user_management:
+    redstar_user_manager:
         class: Redstar\UserBundle\Manager\UserManager
         arguments: ["@doctrine.orm.default_entity_manager"]
