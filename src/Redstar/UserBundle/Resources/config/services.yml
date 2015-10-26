@@ -1,4 +1,4 @@
 services:
-#    redstar_user.example:
-#        class: Redstar\UserBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    redstar_user_management:
+        class: Redstar\UserBundle\Manager\UserManager
+        arguments: ["@doctrine.orm.default_entity_manager"]
