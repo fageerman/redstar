@@ -50,8 +50,9 @@ class User implements AdvancedUserInterface, \Serializable
     private $email;
 
     /**
-     * Is registered as an active user. True when creating new users.
-     * 
+     * If there is a possibility for registration, enabled becomes true when the user 
+     * has activated his/her account via the confirmation link in the 
+     * email send to the user. Other wise this is true when creating a user.
      * @ORM\Column(type="boolean")
      */
     private $enabled;
@@ -70,17 +71,19 @@ class User implements AdvancedUserInterface, \Serializable
      */
     private $confirmationToken; 
     
+    
+    /**
+     * The password reset can only be requested twice (or to be defined in parameters.yml) in 24 hours.
+     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
+     */
+    protected $passwordRequestedAt;
+    
     /**
      * The salt to use for hashing.
      * 
      * @ORM\Column(type="string", length=64)
     */
     private $salt;
-    
-    /**
-     * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
-     */
-    protected $passwordRequestedAt;
     
     /*
      * @ORM\ManyToMany(targetEntity="Role", inversedBy="users")
@@ -208,12 +211,16 @@ class User implements AdvancedUserInterface, \Serializable
 
     public function isAccountNonExpired()
     {
+        /*Expired is true*/
         if (true === $this->expired) {
             return false;
         }
-        if (null !== $this->expiresAt && $this->expiresAt->getTimestamp() < time()) {
+
+        /*Expired is not null and expires_at is in the past*/
+        if (null !== $this->expiresAt && $this->expiresAt->getTimestamp() < time()){
             return false;
         }
+        
         return true;
     }
 
@@ -263,36 +270,41 @@ class User implements AdvancedUserInterface, \Serializable
         return $this;
     }
     
-    function setPlainPassword($plainPassword) {
+    public function setPlainPassword($plainPassword) {
         $this->plainPassword = $plainPassword;
     }
 
-    function setLastLogin($lastLogin) {
+    public function setLastLogin($lastLogin) {
         $this->lastLogin = $lastLogin;
     }
 
-    function setLocked($locked) {
+    public function setLocked($locked) {
         $this->locked = $locked;
     }
 
-    function setConfirmationToken($confirmationToken) {
+    public function setConfirmationToken($confirmationToken) {
         $this->confirmationToken = $confirmationToken;
     }
 
-    function setSalt($salt) {
+    public function setSalt($salt) {
         $this->salt = $salt;
     }
 
-    function setPasswordRequestedAt($passwordRequestedAt) {
+    public function setPasswordRequestedAt($passwordRequestedAt) {
         $this->passwordRequestedAt = $passwordRequestedAt;
     }
 
-    function setExpired($expired) {
+    public function setExpired($expired) {
         $this->expired = $expired;
     }
 
-    function setExpiresAt($expiresAt) {
+    public function setExpiresAt($expiresAt) {
         $this->expiresAt = $expiresAt;
+    }
+    
+    public function isPasswordRequestNonExpired($ttl){
+        return $this->getPasswordRequestedAt() instanceof \DateTime &&
+               $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
     }
 
 
