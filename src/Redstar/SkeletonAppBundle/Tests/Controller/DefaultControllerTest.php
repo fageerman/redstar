@@ -6,12 +6,26 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class DefaultControllerTest extends WebTestCase
 {
-    public function testIndex()
+     /**
+     * @dataProvider urlProvider
+     */
+    public function testPageIsSuccessful($url)
     {
-        $client = static::createClient();
+        $client = self::createClient(array(), array(
+            'PHP_AUTH_USER' => 'admin',
+            'PHP_AUTH_PW'   => 'admin'
+            ));
+        $client->request('GET', $url);
 
-        $crawler = $client->request('GET', '/hello/Fabien');
+        $this->assertTrue($client->getResponse()->isSuccessful());
+    }
 
-        $this->assertTrue($crawler->filter('html:contains("Hello Fabien")')->count() > 0);
+    public function urlProvider()
+    {
+        return array(
+            array('/login'),
+            array('/'),
+            array('/user'),
+        );
     }
 }
