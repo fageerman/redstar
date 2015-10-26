@@ -1,6 +1,9 @@
 imports:
     - { resource: config_dev.yml }
-
+doctrine:
+    dbal:
+        dbname:   "%test_database_name%"
+        
 framework:
     test: ~
     session:
@@ -19,3 +22,5 @@ security:
     firewalls:
         secured_area:
             http_basic: ~
+            
+

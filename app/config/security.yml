@@ -23,7 +23,7 @@ security:
 #                    admin:
 #                        password: kitten
 #                        roles: 'ROLE_ADMIN'
-            administrators:
+            redstar_userbundle:
                 entity:
                     class: RedstarUserBundle:User
                 #    property: username 
