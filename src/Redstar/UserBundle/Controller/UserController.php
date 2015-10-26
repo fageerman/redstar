@@ -4,23 +4,20 @@ namespace Redstar\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Redstar\UserBundle\Entity\User;
-use Doctrine\ORM\EntityManager;
 
-class UserController extends Controller
+
+class UserController extends Controller 
 {
-    /*
-     * List all users from the database 
-     */
+   
     
-    private $em;
-    
-    public function __construct() {
-        $this->em = $this->getDoctrine()->getManager();
-    }
     public function listAction()
     {
+        $userManager = $this->get('redstar_user_manager');
+        $allUser = $userManager->getAllUsers();
         
-        return $this->render('RedstarUserBundle:Default:list.html.twig');
+        return $this->render('RedstarUserBundle:Default:list.html.twig', array(
+            'users'=>$allUser
+        ));
     }
     
     public function newAction()

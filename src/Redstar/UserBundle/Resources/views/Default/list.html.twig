@@ -1,0 +1,51 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}User Management{% endblock %}
+{% block content %}
+    {% if users is defined and users is not empty %} 
+        <div class="table-responsive">
+            <div>
+               {# {{ pagination.getTotalItemCount }} results#}
+            </div>
+            <table class="table table-hover">
+                    <thead>
+                        <tr>	
+                            <td>ID</td>
+                            <td>Username</td>
+                            <td>Email</td>
+                            <td>Firstname</td>
+                            <td>Lastname</td>
+                            <td>Group</td>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-sm">New User</button>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td> 
+                                <td>{{ user.username }}</td> 
+                                <td>{{ user.email }}</td> 
+                                <td> john </td>
+                                <td> Doe</td>
+                                <td>Admin</td>
+                                <td>
+                                    <a class="btn" aria-label="Edit">View</a>
+                                    <a class="btn" aria-label="Edit">Edit</a>
+                                    <a class="btn" aria-label="Edit">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor%}
+                    </tbody>
+            </table>
+            <div class="navigation">
+                {#{{ knp_pagination_render(pagination) }}#}
+            </div>  
+        </div>
+        
+    {% elseif users is defined and users is empty %}
+        No users found.    
+    {% endif %}
+    
+{% endblock %}
