@@ -8,14 +8,13 @@ use Redstar\UserBundle\Entity\User;
 
 class UserController extends Controller 
 {
-   
     
     public function listAction()
     {
         $userManager = $this->get('redstar_user_manager');
         $allUser = $userManager->getAllUsers();
         
-        return $this->render('RedstarUserBundle:Default:list.html.twig', array(
+        return $this->render('RedstarUserBundle:User:list.html.twig', array(
             'users'=>$allUser
         ));
     }

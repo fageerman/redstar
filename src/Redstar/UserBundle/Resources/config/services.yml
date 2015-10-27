@@ -2,3 +2,8 @@ services:
     redstar_user_manager:
         class: Redstar\UserBundle\Manager\UserManager
         arguments: ["@doctrine.orm.default_entity_manager"]
+        
+    redstar_forgotpassword_form:
+        class: Redstar\UserBundle\Form\ResetPasswordForm
+        tags: 
+            - {name: form.type, alias: forgot-password}

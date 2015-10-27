@@ -5,6 +5,7 @@ namespace Redstar\UserBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Redstar\UserBundle\Entity\User
  *
@@ -21,13 +22,14 @@ class User implements AdvancedUserInterface, \Serializable
     private $id;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=25, unique=true)
      */
     private $username;
 
     /**
      * Encrypted password. Must be persisted.
-     * 
+     * @Assert\NotBlank()
      * @ORM\Column(type="string", length=64)
      */
     private $password;
@@ -40,11 +42,13 @@ class User implements AdvancedUserInterface, \Serializable
     private $plainPassword;
     
     /**
+     * @Assert\DateTime()
      * @ORM\Column(name="last_login", type="datetime", nullable=true)
      */
     protected $lastLogin;
     
     /**
+     * @Assert\Email()
      * @ORM\Column(type="string", length=60, unique=true)
      */
     private $email;
@@ -53,6 +57,7 @@ class User implements AdvancedUserInterface, \Serializable
      * If there is a possibility for registration, enabled becomes true when the user 
      * has activated his/her account via the confirmation link in the 
      * email send to the user. Other wise this is true when creating a user.
+     * 
      * @ORM\Column(type="boolean")
      */
     private $enabled;
@@ -74,6 +79,7 @@ class User implements AdvancedUserInterface, \Serializable
     
     /**
      * The password reset can only be requested twice (or to be defined in parameters.yml) in 24 hours.
+     * @Assert\DateTime()
      * @ORM\Column(name="password_requested_at", type="datetime", nullable=true)
      */
     protected $passwordRequestedAt;
@@ -103,6 +109,7 @@ class User implements AdvancedUserInterface, \Serializable
     protected $expired;
     
     /**
+     * @Assert\DateTime()
      * @ORM\Column(name="expires_at", type="datetime", nullable=true)
      */
     protected $expiresAt;

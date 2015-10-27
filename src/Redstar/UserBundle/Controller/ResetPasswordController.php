@@ -10,7 +10,11 @@ class ForgotPasswordController extends Controller
        
     public function forgotPasswordAction(User $id)
     {
-        return $this->render('RedstarUserBundle:Default:index.html.twig');
+        $form = $this->get('forgot-password');
+        
+        return $this->render('RedstarUserBundle:ResetPassword:forgot-password.html.twig', array(
+            'form'=>$form
+        ));
     }
     
     public function checkMailAction()
