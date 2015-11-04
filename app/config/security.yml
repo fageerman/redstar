@@ -34,8 +34,8 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         # the login page has to be accessible for everybody
-        login:
-            pattern:  ^/login$
+        open_area:
+            pattern:  ^/login$|^/forgot-password$|^/check-mail$|^/reset-password
             security: false
             #anonymous: ~
 

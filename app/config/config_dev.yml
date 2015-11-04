@@ -32,5 +32,10 @@ monolog:
 assetic:
     use_controller: true
 
-#swiftmailer:
-#    delivery_address: me@example.com
+# Swiftmailer Configuration
+swiftmailer:
+    delivery_address: f.a.geerman@gmail.com
+    transport: gmail
+    username:  dev.redstar@gmail.com
+    password:  Aruba!23
+    spool:     { type: memory }

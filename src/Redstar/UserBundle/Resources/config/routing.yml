@@ -1,3 +1,21 @@
 redstar_user_homepage:
     path:     /user
     defaults: { _controller: RedstarUserBundle:User:list }
+
+redstar_user_forgot_password:
+    path:   /forgot-password
+    defaults: { _controller: RedstarUserBundle:ResetPassword:forgotPassword }
+    
+redstar_user_reset_password:
+    path:   /reset-password/{token}
+    defaults: { _controller: RedstarUserBundle:ResetPassword:resetPassword }
+    methods: [GET,POST]
+    
+redstar_user_cancel_reset_password:
+    path:   /reset-password/{token}/cancel
+    defaults: { _controller: RedstarUserBundle:ResetPassword:cancelResetPassword }
+    methods: [GET]
+    
+redstar_user_check_mail:
+    path:   /check-mail
+    defaults: { _controller: RedstarUserBundle:ResetPassword:checkMail }

@@ -1,9 +1,26 @@
+parameters:
+    redstar_user_request_ttl: 60
+    redstar_user_token_expire_ttl: 3600
+    redstar_user_email_sender: dev.redstar@gmail.com
+    
 services:
     redstar_user_manager:
         class: Redstar\UserBundle\Manager\UserManager
-        arguments: ["@doctrine.orm.default_entity_manager"]
+        arguments: ["@security.encoder_factory","@doctrine.orm.default_entity_manager"]
         
-    redstar_forgotpassword_form:
-        class: Redstar\UserBundle\Form\ResetPasswordForm
+    redstar_user_forgot_password_form:
+        class: Redstar\UserBundle\Form\ForgotPasswordType
         tags: 
-            - {name: form.type, alias: forgot-password}
+            - {name: form.type, alias: forgot_password}
+            
+    redstar_user_reset_password_form:
+        class: Redstar\UserBundle\Form\ResetPasswordType
+        tags: 
+            - {name: form.type, alias: reset_password}
+            
+    redstar_user_generate_token:
+        class: Redstar\UserBundle\Utilities\TokenGenerator
+        
+    redstar_user_generate_password:
+        class: Redstar\UserBundle\Utilities\PasswordGenerator
+        

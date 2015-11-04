@@ -2,6 +2,9 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
 
+parameters:
+    redstar_user_email_sender: dev.redstar@gmail.com
+
 framework:
     #esi:             ~
     translator:      { fallback: "%locale%" }
