@@ -11,6 +11,13 @@ class DefaultController extends Controller
 {
     public function loginAction(Request $request)
     {
+        if ($this->get('security.context')->isGranted('IS_AUTHENTICATED_FULLY'))
+        {
+            // redirect authenticated users to homepage
+            return $this->redirect('/');
+        }
+
+
         $session = $request->getSession();
 
         // get the login error if there is one

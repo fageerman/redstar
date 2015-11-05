@@ -34,15 +34,16 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
         # the login page has to be accessible for everybody
-        open_area:
-            pattern:  ^/login$|^/forgot-password$|^/check-mail$|^/reset-password
-            security: false
-            #anonymous: ~
+       # open_area:
+        #    pattern:  ^/login$|^/forgot-password$|^/check-mail$|^/reset-password
+          #  security: false
+         #   anonymous: ~
 
         # secures part of the application
         secured_area:
+
             pattern:    ^/
-            
+            anonymous: ~
             form_login:
                 check_path: redstar_security_login_check
                 login_path: redstar_security_login
@@ -51,6 +52,10 @@ security:
                 target: redstar_security_login
             
     access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/forgot-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/check-mail, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/reset-password, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles: ROLE_ADMIN }
         
         
