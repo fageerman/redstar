@@ -20,10 +20,17 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('redstar_security');
 
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
-
+        $rootNode
+            ->children()
+                ->scalarNode('email')->end()
+                ->arrayNode('twitter')
+                    ->children()
+                        ->integerNode('client_id')->end()
+                        ->scalarNode('client_secret')->end()
+                    ->end()
+                ->end() // twitter
+            ->end()
+        ;
         return $treeBuilder;
     }
 }
