@@ -1,4 +1,0 @@
-services:
-#    redstar_financial.example:
-#        class: Redstar\FinancialBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]

@@ -1,5 +1,5 @@
 parameters:
-    redstar_user_request_ttl: 60
+    redstar_user_request_ttl: 3600
     redstar_user_token_expire_ttl: 3600
     redstar_user_email_sender: dev.redstar@gmail.com
     

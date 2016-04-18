@@ -86,9 +86,4 @@ knp_menu:
     # the renderer to use, list is also available by default
     default_renderer: twig
 
-redstar_security:
-    email: john@doe.nl
-    twitter: 
-        client_id: 123
-        client_secret: test
         
